@@ -51,7 +51,7 @@ if len(sys.argv) == 1:
         sys.stdout.flush()
 
     # Gather reports from workers
-    reports = comm.gather(root=MPI.ROOT)
+    reports = comm.gather(0, root=MPI.ROOT)
 
     # Print summary
     workers = 0; tasks = 0; time = 0
@@ -89,7 +89,7 @@ elif sys.argv[1] == start_worker:
 
     # Ask for work until stop sentinel
     log = []
-    for task in iter(lambda: comm.sendrecv(dest=0), StopIteration):
+    for task in iter(lambda: comm.sendrecv(0, dest=0), StopIteration):
         log.append(task)
 
         # Do work (or not!)
